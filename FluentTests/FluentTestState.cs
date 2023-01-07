@@ -1,5 +1,3 @@
-using FluentAssertions.Primitives;
-
 namespace FluentTests;
 
 public class FluentTestState<TContext> : FluentTestState<TContext, TContext> where TContext : class

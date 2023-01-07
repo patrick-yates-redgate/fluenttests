@@ -15,8 +15,6 @@ public class FluentTestsTests
     {
     }
 
-    public int CountStringLength(string value) => value.Length;
-
     public string AddPrefix(string value) => "Prefix" + value;
 
     [Test]
