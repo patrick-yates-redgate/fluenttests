@@ -2,11 +2,16 @@
 
 public class FluentTests
 {
-    public static FluentTestState<TContext> Given<TContext>(params Action<TContext>[] conditionActions) where TContext : class
+    public static FluentTestState<TContext> Given<TContext>(TContext initialValue, params Action<TContext>[] conditionActions) where TContext : class
     {
         var join = string.Empty;
         var conditionName = "Given";
-        
+        if (!string.IsNullOrWhiteSpace(initialValue?.ToString()))
+        {
+            conditionName += initialValue;
+            join = "And";
+        }
+
         foreach (var conditionAction in conditionActions)
         {
             conditionName += join + conditionAction.Method.Name;
@@ -15,14 +20,17 @@ public class FluentTests
 
         return new FluentTestState<TContext>
         {
-            ExecuteTest = context =>
+            TestCaseName = conditionName,
+            ExecuteTestStep = context =>
             {
                 foreach (var conditionAction in conditionActions)
                 {
                     conditionAction(context);
                 }
+
+                return context;
             },
-            TestCaseName = conditionName
+            InitialValue = initialValue
         };
     }
 }
