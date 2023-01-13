@@ -4,7 +4,11 @@ using static FluentTests.FluentTests;
 namespace FluentTests.Examples.BasicTypes;
 
 [TestFixture]
-public class StringTests : FluentTestRunner<StringTests>, IEnumerable
+public class StringTestsWithSeparateClassRunner : FluentTestRunner<StringTestsWithSeparateClass>
+{
+}
+
+public class StringTestsWithSeparateClass : IEnumerable
 {
     public IEnumerator GetEnumerator()
     {
