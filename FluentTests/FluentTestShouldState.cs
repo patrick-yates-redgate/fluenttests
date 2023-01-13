@@ -1,10 +1,10 @@
 using FluentAssertions.Primitives;
+using NUnit.Framework;
 
 namespace FluentTests;
 
-public class FluentTestShouldState<TContextIn> where TContextIn : class
+public class FluentTestShouldState<TContextIn> : TestCaseData where TContextIn : class
 {
-    public Func<TContextIn, ObjectAssertions>? ExecuteTest { get; set; }
-    public string? TestCaseName { get; set; }
+    public Func<TContextIn, ObjectAssertions>? ExecuteTestStep { get; set; }
     public TContextIn InitialValue { get; set; }
 }

@@ -22,7 +22,7 @@ public class FluentTestsTests
     {
         var state = FluentTests.Given("InitialState", TestMethodString);
 
-        state.TestCaseName.Should().Be("GivenInitialStateAndTestMethodString");
+        state.TestName.Should().Be("GivenInitialStateAndTestMethodString");
     }
 
     [Test]
@@ -30,7 +30,7 @@ public class FluentTestsTests
     {
         var state = FluentTests.Given("InitialState", TestMethodString, TestMethodString2);
 
-        state.TestCaseName.Should().Be("GivenInitialStateAndTestMethodStringAndTestMethodString2");
+        state.TestName.Should().Be("GivenInitialStateAndTestMethodStringAndTestMethodString2");
     }
 
     [Test]
@@ -48,6 +48,6 @@ public class FluentTestsTests
     {
         var state = FluentTests.Given("InitialState").When(AddPrefix).Should().Be("PrefixInitialState");
 
-        state.TestCaseName.Should().Be("GivenInitialState_WhenAddPrefix_ShouldBePrefixInitialState");
+        state.TestName.Should().Be("GivenInitialState_WhenAddPrefix_ShouldBePrefixInitialState");
     }
 }

@@ -2,7 +2,8 @@
 
 public class FluentTests
 {
-    public static FluentTestState<TContext> Given<TContext>(TContext initialValue, params Action<TContext>[] conditionActions) where TContext : class
+    public static FluentTestState<TContext> Given<TContext>(TContext initialValue,
+        params Action<TContext>[] conditionActions) where TContext : class
     {
         var join = string.Empty;
         var conditionName = "Given";
@@ -20,7 +21,7 @@ public class FluentTests
 
         return new FluentTestState<TContext>
         {
-            TestCaseName = conditionName,
+            TestName = conditionName,
             ExecuteTestStep = context =>
             {
                 foreach (var conditionAction in conditionActions)
