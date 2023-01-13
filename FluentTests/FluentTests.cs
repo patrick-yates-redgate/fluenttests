@@ -1,6 +1,6 @@
 ﻿namespace FluentTests;
 
-public class FluentTests
+public static class FluentTests
 {
     public static FluentTestState<TContext> Given<TContext>(TContext initialValue,
         params Action<TContext>[] conditionActions) where TContext : class
