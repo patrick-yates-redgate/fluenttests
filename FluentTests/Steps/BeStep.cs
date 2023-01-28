@@ -1,6 +1,6 @@
 namespace FluentTests.Steps;
 
-public class BeStep<T> : FluentTestStep<T> where T : class
+public class BeStep<T> : FluentTestStep<T, T> where T : class
 {
     public BeStep(FluentTestStep previousStep, T expectedValue)
     {

@@ -1,6 +1,6 @@
 namespace FluentTests.Steps;
 
-public class GivenStep<T> : FluentTestStep<T> where T : class
+public class GivenStep<T> : FluentTestStep<T, T> where T : class
 {
     public GivenStep(string description, Func<T> getFunction)
     {

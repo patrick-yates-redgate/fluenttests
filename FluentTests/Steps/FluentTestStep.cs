@@ -34,30 +34,34 @@ public abstract class FluentTestStep
     public abstract void InvokeTest();
 }
 
-public abstract class FluentTestStep<T> : FluentTestStep where T : class
+public interface IFluentTestStepIn<T> where T : class
 {
-    public Func<T,T> TestStepFunction { get; set; }
+    void InvokeTestStep(T inValue);
+}
+
+public abstract class FluentTestStep<T, V> : FluentTestStep, IFluentTestStepIn<T> where T : class
+    where V : class
+{
+    public Func<T,V> TestStepFunction { get; set; }
 
     public override void InvokeTest()
     {
-        if (PreviousStep is FluentTestStep<T>)
+        if (PreviousStep is FluentTestStep<T, V>)
         {
-            (PreviousStep as FluentTestStep<T>).InvokeTest();
+            (PreviousStep as FluentTestStep<T, V>).InvokeTest();
             return;
         }
 
-        var value = TestStepFunction(default(T));
+        InvokeTestStep(default(T));
+    }
+    
+    public void InvokeTestStep(T inValue)
+    {
+        var outValue = TestStepFunction(inValue);
         var testStep = this;
-        while (testStep.NextStep is FluentTestStep<T>)
+        if (testStep.NextStep is IFluentTestStepIn<V>)
         {
-            testStep = testStep.NextStep as FluentTestStep<T>;
-            value = testStep.TestStepFunction(value);
+            (testStep.NextStep as IFluentTestStepIn<V>).InvokeTestStep(outValue);
         }
     }
-}
-
-public abstract class FluentTestStep<T, V> : FluentTestStep where T : class
-    where V : class
-{
-    
 }
