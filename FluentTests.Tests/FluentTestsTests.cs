@@ -1,6 +1,4 @@
-using NUnit.Framework;
-
-namespace FluentTests.Tests;
+using FluentAssertions;
 
 [TestFixture]
 public class FluentTestsTests
@@ -18,27 +16,11 @@ public class FluentTestsTests
     public string AddPrefix(string value) => "Prefix" + value;
 
     [Test]
-    public void TestThatWhenGivenIsCalled_WithASingleMethod_WeGenerateTheRightTestName()
-    {
-        var state = FluentTests.Given("InitialState", TestMethodString);
-
-        state.TestName.Should().Be("GivenInitialStateAndTestMethodString");
-    }
-
-    [Test]
-    public void TestThatWhenGivenIsCalled_WithTwoMethods_WeGenerateTheRightTestNameWithAndBetween()
-    {
-        var state = FluentTests.Given("InitialState", TestMethodString, TestMethodString2);
-
-        state.TestName.Should().Be("GivenInitialStateAndTestMethodStringAndTestMethodString2");
-    }
-
-    [Test]
     public void TestThatWhenWeExecuteAGivenTest_WithJustOneMethod_WeExecuteThatMethod()
     {
         var method = new Mock<Action<string>>();
 
-        FluentTests.Given("InitialState", method.Object).ExecuteTest();
+        Given("InitialState").When(method.Object).InvokeTest();
         
         method.Verify(action => action(Moq.It.IsAny<string>()), Times.Once());
     }
@@ -46,8 +28,12 @@ public class FluentTestsTests
     [Test]
     public void TestThat_ForAString_GivenAnInitialState_WeCanAddPrefix_AndUseFluentAssertionsOnTheOutput()
     {
-        var state = FluentTests.Given("InitialState").When(AddPrefix).Should().Be("PrefixInitialState");
+        var state = Given("InitialState").When(AddPrefix).Should().Be("PrefixInitialState");
 
-        state.TestName.Should().Be("GivenInitialState_WhenAddPrefix_ShouldBePrefixInitialState");
+        state.NameParts.Count.Should().Be(4);
+        state.NameParts[0].Should().Be("Given(InitialState)");
+        state.NameParts[1].Should().Be("When(AddPrefix)");
+        state.NameParts[2].Should().Be("Should()");
+        state.NameParts[3].Should().Be("Be(PrefixInitialState)");
     }
 }
