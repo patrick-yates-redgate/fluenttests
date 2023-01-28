@@ -1,24 +1,36 @@
 using System.Collections;
-using static FluentTests.FluentTests;
+using FluentAssertions;
+using FluentTests.Steps;
+using static FluentTests.FluentTestStaticMethods;
 
 namespace FluentTests.Examples.BasicTypes;
 
 [TestFixture]
-public class StringTests : FluentTestRunner<StringTests>, IEnumerable
+public class StringTests
 {
-    public IEnumerator GetEnumerator()
+    [FluentTestCasesBase]
+    public void RunTest(FluentTestStep testStep) => testStep.InvokeTest();
+    
+    [FluentTestCases]
+    public static IEnumerable<FluentTestStep> MyTests()
     {
         yield return Given("A").Should().Be("A");
+        
         yield return Given("A").When(Lowercase).Should().Be("a");
         yield return Given("A").When(DoubleString).Should().Be("AA");
+        
         yield return Given("ABC").When(Reverse).Should().Be("CBA");
+
+        //yield return Given("Expect to be broken").When(Broken).Should().Be("Not this!");
     }
 
-    public string DoubleString(string value) => value + value;
+    public static string DoubleString(string value) => value + value;
 
-    public string Lowercase(string value) => value.ToLower();
+    public static string Lowercase(string value) => value.ToLower();
+
+    public static string Broken(string value) => "This is broken";
     
-    public string Reverse(string value)
+    public static string Reverse(string value)
     {
         if (value.Length <= 1)
         {
