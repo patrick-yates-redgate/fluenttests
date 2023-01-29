@@ -2,13 +2,13 @@ namespace FluentTests.Steps;
 
 public class FluentTestBeforeShouldStep<T> : FluentTestStep<T, T> where T : class
 {
-    public FluentTestBeforeShouldStep(FluentTestStep? previousStep)
+    private FluentTestBeforeShouldStep(FluentTestStep? previousStep)
     {
         PreviousStep = previousStep;
         if (previousStep != null) previousStep.NextStep = this;
     }
 
-    public FluentTestBeforeShouldStep(FluentTestStep? previousStep, Action<T> action, string? stepDescription = null) : this(previousStep)
+    protected FluentTestBeforeShouldStep(FluentTestStep? previousStep, Action<T> action, string? stepDescription = null) : this(previousStep)
     {
         StepDescription = stepDescription ?? action.Method.Name;
         TestStepFunction = value =>
@@ -18,13 +18,13 @@ public class FluentTestBeforeShouldStep<T> : FluentTestStep<T, T> where T : clas
         };
     }
     
-    public FluentTestBeforeShouldStep(FluentTestStep? previousStep, Func<T> getFunction, string? stepDescription = null) : this(previousStep)
+    protected FluentTestBeforeShouldStep(FluentTestStep? previousStep, Func<T> getFunction, string? stepDescription = null) : this(previousStep)
     {
         StepDescription = stepDescription ?? getFunction.Method.Name;
         TestStepFunction = _ => getFunction();
     }
     
-    public FluentTestBeforeShouldStep(FluentTestStep? previousStep, Func<T,T> manipulationFunction, string? stepDescription = null) : this(previousStep)
+    protected FluentTestBeforeShouldStep(FluentTestStep? previousStep, Func<T,T> manipulationFunction, string? stepDescription = null) : this(previousStep)
     {
         StepDescription = stepDescription ?? manipulationFunction.Method.Name;
         TestStepFunction = manipulationFunction;
