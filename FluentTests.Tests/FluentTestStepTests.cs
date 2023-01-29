@@ -1,17 +1,11 @@
 using FluentAssertions;
 
+namespace FluentTests.Tests;
+
 [TestFixture]
-public class FluentTestsTests
+public class FluentTestStepTests
 {
     private Fixture Fixture { get; } = new();
-
-    public void TestMethodString(string value)
-    {
-    }
-    
-    public void TestMethodString2(string value)
-    {
-    }
 
     public string AddPrefix(string value) => "Prefix" + value;
 
@@ -33,7 +27,7 @@ public class FluentTestsTests
         state.NameParts.Count.Should().Be(4);
         state.NameParts[0].Should().Be("Given(InitialState)");
         state.NameParts[1].Should().Be("When(AddPrefix)");
-        state.NameParts[2].Should().Be("Should()");
+        state.NameParts[2].Should().Be("Should");
         state.NameParts[3].Should().Be("Be(PrefixInitialState)");
     }
 }
