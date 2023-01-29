@@ -29,6 +29,9 @@ public class WhenStep<T> : FluentTestStep<T, T> where T : class
     public ThenStep<T, TOut> Then<TOut>(Func<T, TOut> transformFunc) where TOut : class =>
         new(this, transformFunc);
 
-    public ThenStep<T, NumberWrapper> Then(Func<T, int> transformFunc) =>
-        new(this, value => new NumberWrapper(transformFunc(value)));
+    public ThenStep<T, NumberWrapperInt> Then(Func<T, int> transformFunc) =>
+        new(this, value => new NumberWrapperInt(transformFunc(value)));
+
+    public ThenStep<T, NumberWrapperFloat> Then(Func<T, float> transformFunc) =>
+        new(this, value => new NumberWrapperFloat(transformFunc(value)));
 }

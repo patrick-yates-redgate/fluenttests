@@ -10,6 +10,7 @@ public class ShouldStep<T> : FluentTestStep<T, T> where T : class
     }
 
     public BeStep<T> Be(T value) => new (this, value);
-    public BeStep<NumberWrapper> Be(int value) => new (this, new NumberWrapper(value));
+    public BeStep<NumberWrapperInt> Be(int value) => new (this, new NumberWrapperInt(value));
+    public BeStep<NumberWrapperFloat> Be(float value) => new (this, new NumberWrapperFloat(value));
     public BeEquivalentToStep<T> BeEquivalentTo(T value) => new (this, value);
 }
