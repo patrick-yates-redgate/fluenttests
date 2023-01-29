@@ -6,7 +6,7 @@ public class WhenStep<T> : FluentTestStep<T, T> where T : class
     {
         PreviousStep = previousStep;
         previousStep.NextStep = this;
-        
+
         StepDescription = action.Method.Name;
         TestStepFunction = value =>
         {
@@ -14,15 +14,21 @@ public class WhenStep<T> : FluentTestStep<T, T> where T : class
             return value;
         };
     }
-    
-    public WhenStep(GivenStep<T> previousStep, Func<T,T> manipulationFunction)
+
+    public WhenStep(GivenStep<T> previousStep, Func<T, T> manipulationFunction)
     {
         PreviousStep = previousStep;
         previousStep.NextStep = this;
-        
+
         StepDescription = manipulationFunction.Method.Name;
         TestStepFunction = manipulationFunction;
     }
-    
-    public ShouldStep<T> Should() => new (this);
+
+    public ShouldStep<T> Should() => new(this);
+
+    public ThenStep<T, TOut> Then<TOut>(Func<T, TOut> transformFunc) where TOut : class =>
+        new(this, transformFunc);
+
+    public ThenStep<T, NumberWrapper> Then(Func<T, int> transformFunc) =>
+        new(this, value => new NumberWrapper(transformFunc(value)));
 }
