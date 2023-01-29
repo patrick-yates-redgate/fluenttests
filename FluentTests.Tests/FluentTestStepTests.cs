@@ -9,6 +9,8 @@ public class FluentTestStepTests
 
     public string AddPrefix(string value) => "Prefix" + value;
 
+    public string InitialState() => "InitialState";
+
     [Test]
     public void TestThatWhenWeExecuteAGivenTest_WithJustOneMethod_WeExecuteThatMethod()
     {
@@ -17,6 +19,22 @@ public class FluentTestStepTests
         Given("InitialState").When(method.Object).InvokeTest();
         
         method.Verify(action => action(Moq.It.IsAny<string>()), Times.Once());
+    }
+
+    [Test]
+    public void TestThatWeHaveTheRightTestName_WhenUsingAnActionForInitialValue()
+    {
+        var test = Given(InitialState);
+        test.NameParts.Count.Should().Be(1);
+        test.NameParts[0].Should().Be("Given(InitialState)");
+    }
+
+    [Test]
+    public void TestThatWeHaveTheRightTestName_WhenUsingAStringLiteralForInitialValue()
+    {
+        var test = Given("InitialState");
+        test.NameParts.Count.Should().Be(1);
+        test.NameParts[0].Should().Be("Given(InitialState)");
     }
 
     [Test]

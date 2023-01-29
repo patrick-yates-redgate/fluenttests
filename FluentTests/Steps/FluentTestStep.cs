@@ -5,7 +5,7 @@ public abstract class FluentTestStep
     public string StepPrefix()
     {
         var name = GetType().Name;
-        if (name.EndsWith("Step`1"))
+        if (name.EndsWith("Step`1") || name.EndsWith("Step`2"))
         {
             name = name.Substring(0, name.Length - 6);
         }
