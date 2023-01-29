@@ -23,7 +23,7 @@ public abstract class FluentTestStep
     {
         get
         {
-            var fullStepDescription = StepPrefix() + "(" + (string.IsNullOrWhiteSpace(StepDescription) ? string.Empty : StepDescription) + ")";
+            var fullStepDescription = StepPrefix() + (string.IsNullOrWhiteSpace(StepDescription) ? string.Empty : "(" + StepDescription + ")");
 
             var parts = PreviousStep?.NameParts ?? new List<string>();
             parts.Add(fullStepDescription);
