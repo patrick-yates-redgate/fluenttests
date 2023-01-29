@@ -17,7 +17,7 @@ public abstract class FluentTestStep
 
     public FluentTestStep NextStep { get; set; }
     
-    public FluentTestStep PreviousStep { get; set; }
+    public FluentTestStep? PreviousStep { get; set; }
 
     public List<string> NameParts
     {

@@ -2,7 +2,7 @@ namespace FluentTests.Steps;
 
 public class ShouldStep<T> : FluentTestStep<T, T> where T : class
 {
-    public ShouldStep(FluentTestStep previousStep)
+    public ShouldStep(FluentTestStep? previousStep)
     {
         PreviousStep = previousStep;
         previousStep.NextStep = this;

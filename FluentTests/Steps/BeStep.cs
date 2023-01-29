@@ -2,7 +2,7 @@ namespace FluentTests.Steps;
 
 public class BeStep<T> : FluentTestStep<T, T> where T : class
 {
-    public BeStep(FluentTestStep previousStep, T expectedValue)
+    public BeStep(FluentTestStep? previousStep, T expectedValue)
     {
         PreviousStep = previousStep;
         previousStep.NextStep = this;
@@ -18,7 +18,7 @@ public class BeStep<T> : FluentTestStep<T, T> where T : class
 
 public class BeEquivalentToStep<T> : BeStep<T> where T : class
 {
-    public BeEquivalentToStep(FluentTestStep previousStep, T expectedValue) : base(previousStep, expectedValue)
+    public BeEquivalentToStep(FluentTestStep? previousStep, T expectedValue) : base(previousStep, expectedValue)
     {
         TestStepFunction = value =>
         {
