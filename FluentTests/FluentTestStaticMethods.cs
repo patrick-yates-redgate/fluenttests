@@ -13,4 +13,14 @@ public static class FluentTestStaticMethods
     {
         return new GivenStep<T>(() => value, value.ToString());
     }
+    
+    public static GivenStep<NumberWrapperInt> Given(int value)
+    {
+        return new GivenStep<NumberWrapperInt>(() => new NumberWrapperInt(value), value.ToString());
+    }
+    
+    public static GivenStep<NumberWrapperFloat> Given(float value)
+    {
+        return new GivenStep<NumberWrapperFloat>(() => new NumberWrapperFloat(value), value.ToString());
+    }
 }

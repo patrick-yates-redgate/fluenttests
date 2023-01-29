@@ -2,7 +2,7 @@ namespace FluentTests.Steps;
 
 public abstract class FluentTestStep
 {
-    public string StepPrefix()
+    public virtual string? StepPrefix()
     {
         var name = GetType().Name;
         if (name.EndsWith("Step`1") || name.EndsWith("Step`2"))
@@ -13,7 +13,7 @@ public abstract class FluentTestStep
         return name;
     }
 
-    public string StepDescription { get; set; }
+    public string? StepDescription { get; set; }
 
     public FluentTestStep NextStep { get; set; }
     
