@@ -25,4 +25,11 @@ public class FluentTestFromShouldStep<T> : FluentTestStep<T, T> where T : class
             return value;
         };
     }
+
+    protected FluentTestFromShouldStep(FluentTestStep? previousStep, Func<T> func, string? stepDescription = null)
+        : this(previousStep)
+    {
+        StepDescription = stepDescription ?? func.Method.Name;
+        TestStepFunction = _ => func();
+    }
 }

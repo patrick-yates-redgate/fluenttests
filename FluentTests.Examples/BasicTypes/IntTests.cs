@@ -1,3 +1,4 @@
+using FluentAssertions;
 using FluentTests.Steps;
 using static FluentTests.FluentTestStaticMethods;
 
@@ -6,6 +7,9 @@ namespace FluentTests.Examples.BasicTypes;
 public static class IntMathLibraryUnderTest
 {
     public static int MultiplyBy2(int value) => value * 2;
+    
+    // ReSharper disable once IntDivisionByZero
+    public static int DivideBy0(int value) => value / 0;
 }
 
 [TestFixture]
@@ -29,11 +33,15 @@ public class IntTests
         yield return Given(-1).Should().BeNegative();
         
         yield return Given(1).When(MultiplyBy2).Should().Be(2);
-        //yield return Given(TestValues).When(MultiplyBySelf).Should().BeGreaterThanOrEqualTo(0);
+        
+        yield return Given(1).When(DivideBy0).Should().Throw(new DivideByZeroException());
     }
 
     public static IEnumerable<int> TestValues => new[] { -1, 2, 1000, 3242 };
 
     public static NumberWrapperInt MultiplyBy2(NumberWrapperInt value) =>
         new(IntMathLibraryUnderTest.MultiplyBy2(value.Value));
+    
+    public static NumberWrapperInt DivideBy0(NumberWrapperInt value) =>
+        new(IntMathLibraryUnderTest.DivideBy0(value.Value));
 }

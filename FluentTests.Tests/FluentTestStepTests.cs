@@ -48,4 +48,16 @@ public class FluentTestStepTests
         state.NameParts[2].Should().Be("Should");
         state.NameParts[3].Should().Be("Be(PrefixInitialState)");
     }
+    
+    private string Combine(Tuple<string, string> values) => values.Item1 + values.Item2;
+    
+    [Test]
+    public void TestThatWeHaveTheRightTestName_WhenUsingThen()
+    {
+        
+        var test = Given(new Tuple<string, string>("A", "B")).Then(Combine);
+        test.NameParts.Count.Should().Be(2);
+        test.NameParts[0].Should().Be("Given((A, B))");
+        test.NameParts[1].Should().Be("Then(Combine)");
+    }
 }

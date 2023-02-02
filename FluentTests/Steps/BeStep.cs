@@ -19,6 +19,12 @@ public class BeStep<T> : FluentTestFromShouldStep<T> where T : class
             throw new InvalidOperationException("Invalid usage, Expected public constructor to implement this test step");
     }
 
+    private BeStep(FluentTestStep? previousStep, Func<T> expectedValueFunc, string? stepDescription = null) : base(previousStep, expectedValueFunc, stepDescription)
+    {
+        TestStepFunction = _ =>
+            throw new InvalidOperationException("Invalid usage, Expected public constructor to implement this test step");
+    }
+
     public BeStep(FluentTestStep? previousStep, string? stepMethod,
         Func<ObjectAssertions, AndConstraint<ObjectAssertions>> fluentAssertion, string? stepDescription = null) : this(previousStep, stepDescription)
     {
@@ -33,6 +39,18 @@ public class BeStep<T> : FluentTestFromShouldStep<T> where T : class
 
     public BeStep(FluentTestStep? previousStep, T expectedValue, string? stepMethod,
         Func<ObjectAssertions, AndConstraint<ObjectAssertions>> fluentAssertion, string? stepDescription = null) : this(previousStep, expectedValue, stepDescription)
+    {
+        StepMethod = stepMethod;
+        TestStepFunction = value =>
+        {
+            fluentAssertion(value.Should());
+
+            return value;
+        };
+    }
+
+    public BeStep(FluentTestStep? previousStep, Func<T> expectedValueAction, string? stepMethod,
+        Func<ObjectAssertions, AndConstraint<ObjectAssertions>> fluentAssertion, string? stepDescription = null) : this(previousStep, expectedValueAction, stepDescription)
     {
         StepMethod = stepMethod;
         TestStepFunction = value =>

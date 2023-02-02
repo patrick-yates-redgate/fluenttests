@@ -21,14 +21,14 @@ public class StringTests
         
         yield return Given("ABC").When(Reverse).Should().Be("CBA");
 
-        //yield return Given("Expect to be broken").When(Broken).Should().Be("Not this!");
+        yield return Given("Correct Input").When(BrokenMethod).Should().Be("Correct Output");
     }
 
     public static string DoubleString(string value) => value + value;
 
     public static string Lowercase(string value) => value.ToLower();
 
-    public static string Broken(string value) => "This is broken";
+    public static string BrokenMethod(string value) => "This is broken";
     
     public static string Reverse(string value)
     {

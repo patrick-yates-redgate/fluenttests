@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using FluentAssertions.Primitives;
 
 namespace FluentTests.Steps;
 
@@ -10,7 +11,7 @@ public class ShouldStep<T> : FluentTestStep<T, T> where T : class
         previousStep.NextStep = this;
         TestStepFunction = value => value;
     }
-
+    
     public BeStep<T> Be(T expectation) =>
         new(this, expectation, "Be", (should) => should.Be(expectation));
     
@@ -18,6 +19,8 @@ public class ShouldStep<T> : FluentTestStep<T, T> where T : class
         new(this, expectation, "NotBe", (should) => should.NotBe(expectation));
     public BeStep<T> BeEquivalentTo(T expectation) =>
         new(this, expectation, "BeEquivalentTo", (should) => should.BeEquivalentTo(expectation));
+    public BeStep<T> BeEquivalentTo(Func<T> expectation) =>
+        new(this, expectation, "BeEquivalentTo", (should) => should.BeEquivalentTo(expectation()));
     public BeStep<T> NotBeEquivalentTo(T expectation) =>
         new(this, expectation, "NotBeEquivalentTo", (should) => should.NotBeEquivalentTo(expectation));
     public BeStep<T> BeNull() =>
@@ -33,6 +36,8 @@ public class ShouldStep<T> : FluentTestStep<T, T> where T : class
         new(this, "BeOfType", (should) => should.BeOfType(expectedType), expectedType.Name);
     public BeStep<T> NotBeOfType(Type expectedType) =>
         new(this, "NotBeOfType", (should) => should.NotBeOfType(expectedType), expectedType.Name);
+    public BeStep<T> Throw(Exception expectedException) =>
+        new(this, "Throw", (should) => throw new NotImplementedException("Coming soon!"), expectedException.GetType().Name);
 
     #region REGION_SPECIAL_CASE_INT
     public BeStepInt Be(int expectation) =>
