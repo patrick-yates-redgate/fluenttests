@@ -10,4 +10,8 @@ public class WhenStep<T> : FluentTestBeforeShouldStep<T> where T : class
         manipulationFunction)
     {
     }
+
+    public AndStep<T> And(Action<T> action) => new (this, action);
+
+    public AndStep<T> And(Func<T, T> manipulationFunction) => new (this, manipulationFunction);
 }

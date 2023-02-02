@@ -37,17 +37,24 @@ public class FluentTestBeforeShouldStep<T> : FluentTestStep<T, T> where T : clas
     
     public WhenStep<T> When(Func<T, T> manipulationFunction) => new(this, manipulationFunction);
 
-    public ThenStep<T, TOut> Then<TOut>(Func<T, TOut> transformFunc) where TOut : class =>
+    public ThenStep<T, TOut>Then<TOut>(Func<T, TOut> transformFunc) where TOut : class =>
         new(this, transformFunc);
 
     public ThenStep<T, TOut> Then<TOut>(string stepDescription, Func<T, TOut> transformFunc) where TOut : class =>
         new(this, transformFunc, stepDescription);
 
+    public ThenStep<T, T> Then(string stepDescription, Action<T> assertionAction) => new(this,
+        value =>
+        {
+            assertionAction(value);
+            return value;
+        }, stepDescription);
+
     public ThenStep<T, NumberWrapperInt> Then(Func<T, int> transformFunc) =>
-        new(this, value => new NumberWrapperInt(transformFunc(value)));
+        new(this, value => new NumberWrapperInt(transformFunc(value)), transformFunc.Method.Name);
 
     public ThenStep<T, NumberWrapperFloat> Then(Func<T, float> transformFunc) =>
-        new(this, value => new NumberWrapperFloat(transformFunc(value)));
+        new(this, value => new NumberWrapperFloat(transformFunc(value)), transformFunc.Method.Name);
 
     public ShouldStep<T> Should() => new(this);
 }
