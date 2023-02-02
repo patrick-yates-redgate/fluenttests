@@ -12,19 +12,22 @@ public class FluentTestCasesBaseAttribute : NUnitAttribute, ITestBuilder
 {
     public IEnumerable<TestMethod> BuildFrom(IMethodInfo method, Test? suite)
     {
-        var testCaseMethod = method.MethodInfo.DeclaringType.Methods()
-            .Where(x => x.GetCustomAttribute<FluentTestCasesAttribute>(true) != null).FirstOrDefault();
+        var testCaseMethods = method.MethodInfo.DeclaringType.Methods()
+            .Where(x => x.GetCustomAttribute<FluentTestCasesAttribute>(true) != null);
 
-        var fluentTestCases = (IEnumerable<FluentTestStep>) testCaseMethod?.Invoke(null, null);
-        foreach (var fluentTestCase in fluentTestCases)
+        foreach (var testCaseMethod in testCaseMethods)
         {
-            var testCaseParameters = new TestCaseParameters(new object?[]
+            var fluentTestCases = (IEnumerable<FluentTestStep>) testCaseMethod?.Invoke(null, null);
+            foreach (var fluentTestCase in fluentTestCases)
             {
-                fluentTestCase
-            });
-            testCaseParameters.TestName = string.Join("_", fluentTestCase.NameParts);
+                var testCaseParameters = new TestCaseParameters(new object?[]
+                {
+                    fluentTestCase
+                });
+                testCaseParameters.TestName = string.Join("_", fluentTestCase.NameParts);
             
-            yield return new NUnitTestCaseBuilder().BuildTestMethod(method, suite, testCaseParameters);
+                yield return new NUnitTestCaseBuilder().BuildTestMethod(method, suite, testCaseParameters);
+            }   
         }
     }
 }
