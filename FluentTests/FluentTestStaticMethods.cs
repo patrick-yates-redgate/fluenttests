@@ -11,7 +11,7 @@ public static class FluentTestStaticMethods
     
     public static GivenStep<T> Given<T>(T value) where T : class
     {
-        return new GivenStep<T>(() => value, value?.ToString() ?? "null");
+        return new GivenStep<T>(() => value, value is string { Length: 0 } ? "Empty" : value?.ToString() ?? "null");
     }
     
     public static GivenStep<NumberWrapperInt> Given(int value)

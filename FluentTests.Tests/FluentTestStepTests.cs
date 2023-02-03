@@ -60,4 +60,13 @@ public class FluentTestStepTests
         test.NameParts[0].Should().Be("Given((A, B))");
         test.NameParts[1].Should().Be("Then(Combine)");
     }
+    
+    [Test]
+    public void TestEmptyString()
+    {
+        var test = Given(string.Empty);
+        
+        test.NameParts.Count.Should().Be(1);
+        test.NameParts[0].Should().Be("Given(Empty)");
+    }
 }
