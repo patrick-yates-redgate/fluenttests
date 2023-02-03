@@ -85,4 +85,12 @@ public class ShouldStep<T> : FluentTestStep<T, T> where T : class
         new(this, "NotBeInRange", (should) => should.NotBeInRange(minimumValue, maximumValue), $@"[{minimumValue}-{maximumValue}]");
 
     #endregion
+    
+    #region REGION_SPECIAL_CASE_BOOL
+    public BeStepBool BeTrue() =>
+        new(this, false, "Be", (should) => should.BeTrue());
+    public BeStepBool BeFalse() =>
+        new(this, false, "Be", (should) => should.BeFalse());
+
+    #endregion
 }

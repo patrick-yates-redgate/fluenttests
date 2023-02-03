@@ -50,6 +50,12 @@ public class FluentTestBeforeShouldStep<T> : FluentTestStep<T, T> where T : clas
             return value;
         }, stepDescription);
 
+    public ThenStep<T, BoolWrapper>Then(Func<T, bool> transformFunc) =>
+        new(this, value => new BoolWrapper(transformFunc(value)), transformFunc.Method.Name);
+    
+    public ThenStep<T, NumberWrapperInt> Then(string stepDescription, Func<T, int> transformFunc) =>
+        new(this, value => new NumberWrapperInt(transformFunc(value)), stepDescription);
+    
     public ThenStep<T, NumberWrapperInt> Then(Func<T, int> transformFunc) =>
         new(this, value => new NumberWrapperInt(transformFunc(value)), transformFunc.Method.Name);
 

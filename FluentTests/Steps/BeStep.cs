@@ -129,3 +129,36 @@ public class BeStepFloat : FluentTestFromShouldStep<NumberWrapperFloat>
 
     public override string? StepPrefix() => StepMethod;
 }
+
+public class BeStepBool : FluentTestFromShouldStep<BoolWrapper>
+{
+    private string? StepMethod { get; }
+
+    public BeStepBool(FluentTestStep? previousStep, string? stepMethod,
+        Func<BooleanAssertions, AndConstraint<BooleanAssertions>> fluentAssertion,
+        string? stepDescription = null) : base(previousStep, stepDescription)
+    {
+        StepMethod = stepMethod;
+        TestStepFunction = value =>
+        {
+            fluentAssertion(value.Value.Should());
+
+            return value;
+        };
+    }
+
+    public BeStepBool(FluentTestStep? previousStep, bool expectedValue, string? stepMethod,
+        Func<BooleanAssertions, AndConstraint<BooleanAssertions>> fluentAssertion,
+        string? stepDescription = null) : base(previousStep, new BoolWrapper(expectedValue), stepDescription)
+    {
+        StepMethod = stepMethod;
+        TestStepFunction = value =>
+        {
+            fluentAssertion(value.Value.Should());
+
+            return value;
+        };
+    }
+
+    public override string? StepPrefix() => StepMethod;
+}
