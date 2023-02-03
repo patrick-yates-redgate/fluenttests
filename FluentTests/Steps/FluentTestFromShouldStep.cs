@@ -1,6 +1,6 @@
 namespace FluentTests.Steps;
 
-public class FluentTestFromShouldStep<T> : FluentTestStep<T, T> where T : class
+public class FluentTestFromShouldStep<T> : FluentTestStep<T, T>
 {
     protected FluentTestFromShouldStep(FluentTestStep? previousStep, string? stepDescription = null)
     {

@@ -26,12 +26,9 @@ public class FloatTests
         yield return Given(1f).Should().BeLessThanOrEqualTo(2f);
         yield return Given(2f).Should().BeLessThanOrEqualTo(2f);
         
-        yield return Given(1f).When(MultiplyBy2).Should().Be(2f);
+        yield return Given(1f).When(FloatMathLibraryUnderTest.MultiplyBy2).Should().Be(2f);
         //yield return Given(TestValues).When(MultiplyBySelf).Should().BeGreaterThanOrEqualTo(0);
     }
 
     public static IEnumerable<float> TestValues => new[] { -1f, 2f, 1000f, 3242f };
-
-    public static NumberWrapperFloat MultiplyBy2(NumberWrapperFloat value) =>
-        new(FloatMathLibraryUnderTest.MultiplyBy2(value.Value));
 }

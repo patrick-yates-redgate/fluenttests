@@ -34,13 +34,12 @@ public abstract class FluentTestStep
     public abstract void InvokeTest();
 }
 
-public interface IFluentTestStepIn<T> where T : class
+public interface IFluentTestStepIn<in T>
 {
     void InvokeTestStep(T inValue);
 }
 
-public abstract class FluentTestStep<T, TOut> : FluentTestStep, IFluentTestStepIn<T> where T : class
-    where TOut : class
+public abstract class FluentTestStep<T, TOut> : FluentTestStep, IFluentTestStepIn<T>
 {
     public Func<T, TOut> TestStepFunction { get; set; }
 

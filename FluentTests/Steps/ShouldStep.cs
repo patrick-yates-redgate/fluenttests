@@ -1,42 +1,39 @@
-using System.Linq.Expressions;
-using FluentAssertions.Primitives;
-
 namespace FluentTests.Steps;
 
-public class ShouldStep<T> : FluentTestStep<T, T> where T : class
+public class ShouldStep<T> : FluentTestStep<T, T>
 {
-    public ShouldStep(FluentTestStep? previousStep)
+    public ShouldStep(FluentTestStep previousStep)
     {
         PreviousStep = previousStep;
         previousStep.NextStep = this;
         TestStepFunction = value => value;
     }
     
-    public BeStep<T> Be(T expectation) =>
+    public BeStepObject Be(T expectation) =>
         new(this, expectation, "Be", (should) => should.Be(expectation));
     
-    public BeStep<T> NotBe(T expectation) =>
+    public BeStepObject NotBe(T expectation) =>
         new(this, expectation, "NotBe", (should) => should.NotBe(expectation));
-    public BeStep<T> BeEquivalentTo(T expectation) =>
+    public BeStepObject BeEquivalentTo(T expectation) =>
         new(this, expectation, "BeEquivalentTo", (should) => should.BeEquivalentTo(expectation));
-    public BeStep<T> BeEquivalentTo(Func<T> expectation) =>
+    public BeStepObject BeEquivalentTo(Func<T> expectation) =>
         new(this, expectation, "BeEquivalentTo", (should) => should.BeEquivalentTo(expectation()));
-    public BeStep<T> NotBeEquivalentTo(T expectation) =>
+    public BeStepObject NotBeEquivalentTo(T expectation) =>
         new(this, expectation, "NotBeEquivalentTo", (should) => should.NotBeEquivalentTo(expectation));
-    public BeStep<T> BeNull() =>
+    public BeStepObject BeNull() =>
         new(this, "BeNull", (should) => should.BeNull());
-    public BeStep<T> NotBeNull() =>
+    public BeStepObject NotBeNull() =>
         new(this, "NotBeNull", (should) => should.NotBeNull());
-    public BeStep<T> BeSameAs(T expectation) =>
+    public BeStepObject BeSameAs(T expectation) =>
         new(this, expectation, "BeSameAs", (should) => should.BeSameAs(expectation));
-    public BeStep<T> NotBeSameAs(T expectation) =>
+    public BeStepObject NotBeSameAs(T expectation) =>
         new(this, expectation, "NotBeSameAs", (should) => should.NotBeSameAs(expectation));
 
-    public BeStep<T> BeOfType(Type expectedType) =>
+    public BeStepObject BeOfType(Type expectedType) =>
         new(this, "BeOfType", (should) => should.BeOfType(expectedType), expectedType.Name);
-    public BeStep<T> NotBeOfType(Type expectedType) =>
+    public BeStepObject NotBeOfType(Type expectedType) =>
         new(this, "NotBeOfType", (should) => should.NotBeOfType(expectedType), expectedType.Name);
-    public BeStep<T> Throw(Exception expectedException) =>
+    public BeStepObject Throw(Exception expectedException) =>
         new(this, "Throw", (should) => throw new NotImplementedException("Coming soon!"), expectedException.GetType().Name);
 
     #region REGION_SPECIAL_CASE_INT
@@ -88,9 +85,9 @@ public class ShouldStep<T> : FluentTestStep<T, T> where T : class
     
     #region REGION_SPECIAL_CASE_BOOL
     public BeStepBool BeTrue() =>
-        new(this, false, "Be", (should) => should.BeTrue());
+        new(this, "BeTrue", (should) => should.BeTrue());
     public BeStepBool BeFalse() =>
-        new(this, false, "Be", (should) => should.BeFalse());
+        new(this, "BeFalse", (should) => should.BeFalse());
 
     #endregion
 }

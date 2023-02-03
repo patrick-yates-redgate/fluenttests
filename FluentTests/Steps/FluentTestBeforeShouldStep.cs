@@ -1,6 +1,6 @@
 namespace FluentTests.Steps;
 
-public class FluentTestBeforeShouldStep<T> : FluentTestStep<T, T> where T : class
+public class FluentTestBeforeShouldStep<T> : FluentTestStep<T, T>
 {
     private FluentTestBeforeShouldStep(FluentTestStep? previousStep)
     {
@@ -37,10 +37,10 @@ public class FluentTestBeforeShouldStep<T> : FluentTestStep<T, T> where T : clas
     
     public WhenStep<T> When(Func<T, T> manipulationFunction) => new(this, manipulationFunction);
 
-    public ThenStep<T, TOut>Then<TOut>(Func<T, TOut> transformFunc) where TOut : class =>
+    public ThenStep<T, TOut>Then<TOut>(Func<T, TOut> transformFunc) =>
         new(this, transformFunc);
 
-    public ThenStep<T, TOut> Then<TOut>(string stepDescription, Func<T, TOut> transformFunc) where TOut : class =>
+    public ThenStep<T, TOut> Then<TOut>(string stepDescription, Func<T, TOut> transformFunc) =>
         new(this, transformFunc, stepDescription);
 
     public ThenStep<T, T> Then(string stepDescription, Action<T> assertionAction) => new(this,
@@ -49,18 +49,15 @@ public class FluentTestBeforeShouldStep<T> : FluentTestStep<T, T> where T : clas
             assertionAction(value);
             return value;
         }, stepDescription);
-
-    public ThenStep<T, BoolWrapper>Then(Func<T, bool> transformFunc) =>
-        new(this, value => new BoolWrapper(transformFunc(value)), transformFunc.Method.Name);
     
-    public ThenStep<T, NumberWrapperInt> Then(string stepDescription, Func<T, int> transformFunc) =>
-        new(this, value => new NumberWrapperInt(transformFunc(value)), stepDescription);
+    public ThenStep<T, int> Then(string stepDescription, Func<T, int> transformFunc) =>
+        new(this, transformFunc, stepDescription);
     
-    public ThenStep<T, NumberWrapperInt> Then(Func<T, int> transformFunc) =>
-        new(this, value => new NumberWrapperInt(transformFunc(value)), transformFunc.Method.Name);
+    public ThenStep<T, int> Then(Func<T, int> transformFunc) =>
+        new(this, transformFunc, transformFunc.Method.Name);
 
-    public ThenStep<T, NumberWrapperFloat> Then(Func<T, float> transformFunc) =>
-        new(this, value => new NumberWrapperFloat(transformFunc(value)), transformFunc.Method.Name);
+    public ThenStep<T, float> Then(Func<T, float> transformFunc) =>
+        new(this, transformFunc, transformFunc.Method.Name);
 
     public ShouldStep<T> Should() => new(this);
 }
