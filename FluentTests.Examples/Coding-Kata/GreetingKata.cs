@@ -5,13 +5,13 @@ namespace FluentTests.Examples.Coding_Kata;
 
 public static class GreetingKata
 {
-    public static BoolWrapper IsUppercase(string name) => new (name.All(Char.IsUpper));
+    public static bool IsUppercase(string name) => name.All(Char.IsUpper);
 
     public static string Greeting(string? name)
     {
         if (name == null) return "Hello, my friend";
 
-        return IsUppercase(name).Value ? $"HELLO {name}!" : $"Hello, {name}.";
+        return IsUppercase(name) ? $"HELLO {name}!" : $"Hello, {name}.";
     }
 
     public static string Greeting(IEnumerable<string> names)
@@ -42,8 +42,8 @@ public class GreetingKataTests
     [FluentTestCases]
     public static IEnumerable<FluentTestStep> IsUppercaseTests()
     {
-        yield return Given("Bob").Then(GreetingKata.IsUppercase).Should().BeEquivalentTo(new BoolWrapper(false));
-        yield return Given("JERRY").Then(GreetingKata.IsUppercase).Should().BeEquivalentTo(new BoolWrapper(true));
+        yield return Given("Bob").Then(GreetingKata.IsUppercase).Should().BeFalse();
+        yield return Given("JERRY").Then(GreetingKata.IsUppercase).Should().BeTrue();
         
         
     }
