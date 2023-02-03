@@ -1,6 +1,6 @@
 namespace FluentTests.Steps;
 
-public class ThenStep<T, TOut> : FluentTestStep<T, TOut> where T : class where TOut : class
+public class ThenStep<T, TOut> : FluentTestStep<T, TOut>
 {
     public ThenStep(FluentTestStep? previousStep, Func<T, TOut> transformFunc, string? stepDescription = null)
     {

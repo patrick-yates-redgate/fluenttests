@@ -1,5 +1,3 @@
-using System.Collections;
-using FluentAssertions;
 using FluentTests.Steps;
 using static FluentTests.FluentTestStaticMethods;
 

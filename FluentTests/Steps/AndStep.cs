@@ -1,6 +1,6 @@
 namespace FluentTests.Steps;
 
-public class AndStep<T> : FluentTestBeforeShouldStep<T> where T : class
+public class AndStep<T> : FluentTestBeforeShouldStep<T>
 {
     public AndStep(FluentTestStep? previousStep, Action<T> action) : base(previousStep, action)
     {

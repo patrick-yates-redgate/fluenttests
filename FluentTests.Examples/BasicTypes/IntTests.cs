@@ -32,16 +32,10 @@ public class IntTests
         yield return Given(1).Should().BePositive();
         yield return Given(-1).Should().BeNegative();
         
-        yield return Given(1).When(MultiplyBy2).Should().Be(2);
+        yield return Given(1).When(IntMathLibraryUnderTest.MultiplyBy2).Should().Be(2);
         
-        yield return Given(1).When(DivideBy0).Should().Throw(new DivideByZeroException());
+        yield return Given(1).When(IntMathLibraryUnderTest.DivideBy0).Should().Throw(new DivideByZeroException());
     }
 
     public static IEnumerable<int> TestValues => new[] { -1, 2, 1000, 3242 };
-
-    public static NumberWrapperInt MultiplyBy2(NumberWrapperInt value) =>
-        new(IntMathLibraryUnderTest.MultiplyBy2(value.Value));
-    
-    public static NumberWrapperInt DivideBy0(NumberWrapperInt value) =>
-        new(IntMathLibraryUnderTest.DivideBy0(value.Value));
 }
