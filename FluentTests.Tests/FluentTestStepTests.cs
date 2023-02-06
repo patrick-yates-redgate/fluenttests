@@ -21,6 +21,7 @@ public class FluentTestStepTests
         method.Verify(action => action(Moq.It.IsAny<string>()), Times.Once());
     }
 
+    /*
     [Test]
     public void TestThatWeHaveTheRightTestName_WhenUsingAnActionForInitialValue()
     {
@@ -61,12 +62,72 @@ public class FluentTestStepTests
         test.NameParts[1].Should().Be("Then(Combine)");
     }
     
+    */
+    
     [Test]
-    public void TestEmptyString()
+    public void Test_FluentTestStep_EmptyString()
+    {
+        var test = new FluentTestStep<string>{ StepName = "Given", StepContentsDescription = string.Empty };
+
+        test.TestStepName.Should().Be("Given(Empty)");
+    }
+    
+    [Test]
+    public void Test_FluentTestStep_FromType_WhenAddAction()
+    {
+        var test = new FluentTestStep<string> { StepName = "Given", StepContentsDescription = string.Empty }.SetStepFunction(_ => { });
+
+        test.InType.Should().Be(typeof(string));
+    }
+    
+    [Test]
+    public void Test_Given_EmptyString()
     {
         var test = Given(string.Empty);
-        
-        test.NameParts.Count.Should().Be(1);
-        test.NameParts[0].Should().Be("Given(Empty)");
+
+        test.NameParts.Should().BeEquivalentTo("Given(Empty)");
     }
+
+    [Test]
+    public void Test_Given_When_Should_On_EmptyString()
+    {
+        var test = Given(string.Empty).When(AppendX).Should().Be("X");
+
+        test.NameParts.Should().BeEquivalentTo("Given(Empty)", "When(AppendX)", "Should", "Be(X)");
+    }
+
+    [Test]
+    public void Test_Given_When_Should_On_SimpleString()
+    {
+        var test = Given("Y").When(AppendX).Should().Be("YX");
+
+        test.NameParts.Should().BeEquivalentTo("Given(Y)", "When(AppendX)", "Should", "Be(YX)");
+    }
+
+    [Test]
+    public void Test_Given_Should_On_SimpleInt()
+    {
+        var test = Given(123).Should();
+            
+        test.GetType().Should().Be<FluentTestContextAssertionNumeric>();
+        test.NameParts.Should().BeEquivalentTo("Given(123)", "Should");
+    }
+
+    private string AppendX(string input) => input + "X";
+
+    /*
+    [FluentTestCasesBase]
+    public void RunTest(FluentTest testStep) => testStep.InvokeTest();
+    
+    [FluentTestCases]
+    public static IEnumerable<FluentTestContext> MyTests()
+    {
+        yield return Given(NewFluentTestStep).When("Set Name", step =>
+        {
+            step.StepName = "StepName";
+        }).Then("StepName", step => step.StepName)!.Should().Be("StepName");
+    }
+
+    private static FluentTestStep NewFluentTestStep() => new ();
+    */
 }

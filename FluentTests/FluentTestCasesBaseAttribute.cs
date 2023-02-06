@@ -17,7 +17,7 @@ public class FluentTestCasesBaseAttribute : NUnitAttribute, ITestBuilder
 
         foreach (var testCaseMethod in testCaseMethods)
         {
-            var fluentTestCases = (IEnumerable<FluentTestStep>) testCaseMethod?.Invoke(null, null);
+            var fluentTestCases = (IEnumerable<FluentTest>) testCaseMethod?.Invoke(null, null);
             foreach (var fluentTestCase in fluentTestCases)
             {
                 var testCaseParameters = new TestCaseParameters(new object?[]

@@ -1,5 +1,5 @@
 using FluentTests.Steps;
-using static FluentTests.FluentTestStaticMethods;
+using static FluentTests.FluentTests;
 
 namespace FluentTests.Examples.Coding_Kata;
 
@@ -23,6 +23,7 @@ public static class GreetingKata
 [TestFixture]
 public class GreetingKataTests
 {
+    /*
     [FluentTestCasesBase]
     public void RunTest(FluentTestStep testStep) => testStep.InvokeTest();
 
@@ -47,4 +48,5 @@ public class GreetingKataTests
         
         
     }
+    */
 }

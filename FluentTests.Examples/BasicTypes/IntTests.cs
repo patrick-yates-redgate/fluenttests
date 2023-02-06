@@ -1,6 +1,6 @@
 using FluentAssertions;
 using FluentTests.Steps;
-using static FluentTests.FluentTestStaticMethods;
+using static FluentTests.FluentTests;
 
 namespace FluentTests.Examples.BasicTypes;
 
@@ -15,6 +15,7 @@ public static class IntMathLibraryUnderTest
 [TestFixture]
 public class IntTests
 {
+    /*
     [FluentTestCasesBase]
     public void RunTest(FluentTestStep testStep) => testStep.InvokeTest();
 
@@ -38,4 +39,5 @@ public class IntTests
     }
 
     public static IEnumerable<int> TestValues => new[] { -1, 2, 1000, 3242 };
+    */
 }

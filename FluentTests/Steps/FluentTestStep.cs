@@ -39,6 +39,11 @@ public interface IFluentTestStepIn<in T>
     void InvokeTestStep(T inValue);
 }
 
+public interface IFluentTestStepOut<out TOut>
+{
+    Func<TOut> GetOutput();
+}
+
 public abstract class FluentTestStep<T, TOut> : FluentTestStep, IFluentTestStepIn<T>
 {
     public Func<T, TOut> TestStepFunction { get; set; }

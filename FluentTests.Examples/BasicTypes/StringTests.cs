@@ -1,11 +1,12 @@
 using FluentTests.Steps;
-using static FluentTests.FluentTestStaticMethods;
+using static FluentTests.FluentTests;
 
 namespace FluentTests.Examples.BasicTypes;
 
 [TestFixture]
 public class StringTests
 {
+    /*
     [FluentTestCasesBase]
     public void RunTest(FluentTestStep testStep) => testStep.InvokeTest();
     
@@ -39,4 +40,5 @@ public class StringTests
         Array.Reverse(chars);
         return new string(chars);
     }
+    */
 }

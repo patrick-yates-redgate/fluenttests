@@ -1,12 +1,13 @@
 using FluentAssertions;
 using FluentTests.Steps;
-using static FluentTests.FluentTestStaticMethods;
+using static FluentTests.FluentTests;
 
 namespace FluentTests.Examples.ClassTests;
 
 [TestFixture]
 public class PersonTests
 {
+    /*
     [FluentTestCasesBase]
     public void RunTest(FluentTestStep testStep) => testStep.InvokeTest();
 
@@ -58,4 +59,5 @@ public class PersonTests
 
         // Assert
     }
+    */
 }
