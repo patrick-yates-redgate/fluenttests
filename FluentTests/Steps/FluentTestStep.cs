@@ -63,9 +63,9 @@ public abstract class FluentTestStep<T, TOut> : FluentTestStep, IFluentTestStepI
     {
         var outValue = TestStepFunction(inValue);
         var testStep = this;
-        if (testStep.NextStep is IFluentTestStepIn<TOut>)
+        if (testStep.NextStep is IFluentTestStepIn<TOut> @in)
         {
-            (testStep.NextStep as IFluentTestStepIn<TOut>).InvokeTestStep(outValue);
+            @in.InvokeTestStep(outValue);
         }
     }
 }
