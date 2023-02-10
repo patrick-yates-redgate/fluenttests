@@ -109,8 +109,17 @@ public class FluentTestStepTests
     {
         var test = Given(123).Should();
             
-        test.GetType().Should().Be<FluentTestContextAssertionNumeric>();
+        test.GetType().Should().Be<FluentTestContextAssertionNumeric<int>>();
         test.NameParts.Should().BeEquivalentTo("Given(123)", "Should");
+    }
+
+    [Test]
+    public void Test_Given_When_On_ChangeFromStringToInt_ShouldHaveRightTypeWithInAndOut()
+    {
+        var test = Given("123").When("Length", x => x.Length).Should().Be(3);
+            
+        test.GetType().Should().Be<FluentTestContextAssertionNumeric<string>>();
+        test.NameParts.Should().BeEquivalentTo("Given(123)", "When(Length)", "Should", "Be(3)");
     }
 
     private string AppendX(string input) => input + "X";
