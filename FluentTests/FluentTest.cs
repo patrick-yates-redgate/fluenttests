@@ -2,7 +2,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
-using FluentTests.Steps;
 using NUnit.Framework.Internal;
 
 namespace FluentTests;

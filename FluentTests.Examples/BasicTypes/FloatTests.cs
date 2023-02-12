@@ -1,5 +1,3 @@
-using System.Collections;
-using FluentTests.Steps;
 using static FluentTests.FluentTests;
 
 namespace FluentTests.Examples.BasicTypes;
