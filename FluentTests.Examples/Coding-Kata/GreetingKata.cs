@@ -23,14 +23,13 @@ public static class GreetingKata
 [TestFixture]
 public class GreetingKataTests
 {
-    /*
     [FluentTestCasesBase]
-    public void RunTest(FluentTestStep testStep) => testStep.InvokeTest();
+    public void RunTest(FluentTestContextBase testStep) => testStep.InvokeTest();
 
     [FluentTestCases]
-    public static IEnumerable<FluentTestStep> GreetingTests()
+    public static IEnumerable<FluentTestContextBase> GreetingTests()
     {
-        yield return Given((null as string)!).When(GreetingKata.Greeting).Should().Be("Hello, my friend");
+        //yield return Given((null as string)!).When(GreetingKata.Greeting).Should().Be("Hello, my friend");
         yield return Given("Bob").When(GreetingKata.Greeting).Should().Be("Hello, Bob.");
         yield return Given("John").When(GreetingKata.Greeting).Should().Be("Hello, John.");
         yield return Given("TOM").When(GreetingKata.Greeting).Should().Be("HELLO TOM!");
@@ -41,12 +40,9 @@ public class GreetingKataTests
     }
     
     [FluentTestCases]
-    public static IEnumerable<FluentTestStep> IsUppercaseTests()
+    public static IEnumerable<FluentTestContextBase> IsUppercaseTests()
     {
         yield return Given("Bob").Then(GreetingKata.IsUppercase).Should().BeFalse();
         yield return Given("JERRY").Then(GreetingKata.IsUppercase).Should().BeTrue();
-        
-        
     }
-    */
 }

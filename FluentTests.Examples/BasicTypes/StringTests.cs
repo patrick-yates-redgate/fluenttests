@@ -6,12 +6,11 @@ namespace FluentTests.Examples.BasicTypes;
 [TestFixture]
 public class StringTests
 {
-    /*
     [FluentTestCasesBase]
-    public void RunTest(FluentTestStep testStep) => testStep.InvokeTest();
+    public void RunTest(FluentTestContextBase testStep) => testStep.InvokeTest();
     
     [FluentTestCases]
-    public static IEnumerable<FluentTestStep> MyTests()
+    public static IEnumerable<FluentTestContextBase> MyTests()
     {
         yield return Given("A").Should().Be("A");
         
@@ -20,7 +19,7 @@ public class StringTests
         
         yield return Given("ABC").When(Reverse).Should().Be("CBA");
 
-        yield return Given("Correct Input").When(BrokenMethod).Should().Be("Correct Output");
+        //yield return Given("Correct Input").When(BrokenMethod).Should().Be("Correct Output");
     }
 
     public static string DoubleString(string value) => value + value;
@@ -40,5 +39,4 @@ public class StringTests
         Array.Reverse(chars);
         return new string(chars);
     }
-    */
 }

@@ -15,12 +15,11 @@ public static class IntMathLibraryUnderTest
 [TestFixture]
 public class IntTests
 {
-    /*
     [FluentTestCasesBase]
-    public void RunTest(FluentTestStep testStep) => testStep.InvokeTest();
+    public void RunTest(FluentTestContextBase testStep) => testStep.InvokeTest();
 
     [FluentTestCases]
-    public static IEnumerable<FluentTestStep> MyTests()
+    public static IEnumerable<FluentTestContextBase> MyTests()
     {
         yield return Given(1).Should().Be(1);
         yield return Given(1).Should().NotBe(2);
@@ -35,9 +34,8 @@ public class IntTests
         
         yield return Given(1).When(IntMathLibraryUnderTest.MultiplyBy2).Should().Be(2);
         
-        yield return Given(1).When(IntMathLibraryUnderTest.DivideBy0).Should().Throw(new DivideByZeroException());
+        //yield return Given(1).When(IntMathLibraryUnderTest.DivideBy0).Should().Throw(new DivideByZeroException());
     }
 
     public static IEnumerable<int> TestValues => new[] { -1, 2, 1000, 3242 };
-    */
 }

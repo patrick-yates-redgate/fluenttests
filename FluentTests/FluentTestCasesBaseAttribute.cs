@@ -12,22 +12,36 @@ public class FluentTestCasesBaseAttribute : NUnitAttribute, ITestBuilder
 {
     public IEnumerable<TestMethod> BuildFrom(IMethodInfo method, Test? suite)
     {
-        var testCaseMethods = method.MethodInfo.DeclaringType.Methods()
-            .Where(x => x.GetCustomAttribute<FluentTestCasesAttribute>(true) != null);
-
-        foreach (var testCaseMethod in testCaseMethods)
+        var tests = new List<TestMethod>();
+        
+        try
         {
-            var fluentTestCases = (IEnumerable<FluentTest>) testCaseMethod?.Invoke(null, null);
-            foreach (var fluentTestCase in fluentTestCases)
+            var testCaseMethods = method.MethodInfo.DeclaringType.Methods()
+                .Where(x => x.GetCustomAttribute<FluentTestCasesAttribute>(true) != null);
+
+            foreach (var testCaseMethod in testCaseMethods)
             {
-                var testCaseParameters = new TestCaseParameters(new object?[]
+                var fluentTestCases = (IEnumerable<FluentTestContextBase>)testCaseMethod?.Invoke(null, null);
+                foreach (var fluentTestCase in fluentTestCases)
                 {
-                    fluentTestCase
-                });
-                testCaseParameters.TestName = string.Join("_", fluentTestCase.NameParts);
-            
-                yield return new NUnitTestCaseBuilder().BuildTestMethod(method, suite, testCaseParameters);
-            }   
+                    var testCaseParameters = new TestCaseParameters(new object?[]
+                    {
+                        fluentTestCase
+                    });
+                    testCaseParameters.TestName = string.Join("_", fluentTestCase.NameParts);
+
+                    tests.Add(new NUnitTestCaseBuilder().BuildTestMethod(method, suite, testCaseParameters));
+                }
+            }
         }
+        catch (Exception ex)
+        {
+            tests.Add(new NUnitTestCaseBuilder().BuildTestMethod(method, suite, new TestCaseParameters(new object?[]
+            {
+                new FluentTestContextArrange<object, object>(() => { throw new Exception("Unable to build tests", ex); }, "Setup Error")
+            })));
+        }
+
+        return tests;
     }
 }

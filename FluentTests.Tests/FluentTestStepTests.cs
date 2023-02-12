@@ -67,17 +67,9 @@ public class FluentTestStepTests
     [Test]
     public void Test_FluentTestStep_EmptyString()
     {
-        var test = new FluentTestStep<string>{ StepName = "Given", StepContentsDescription = string.Empty };
+        var test = new FluentTestStep { StepName = "Given", StepContentsDescription = string.Empty };
 
         test.TestStepName.Should().Be("Given(Empty)");
-    }
-    
-    [Test]
-    public void Test_FluentTestStep_FromType_WhenAddAction()
-    {
-        var test = new FluentTestStep<string> { StepName = "Given", StepContentsDescription = string.Empty }.SetStepFunction(_ => { });
-
-        test.InType.Should().Be(typeof(string));
     }
     
     [Test]
@@ -109,8 +101,17 @@ public class FluentTestStepTests
     {
         var test = Given(123).Should();
             
-        test.GetType().Should().Be<FluentTestContextAssertionNumeric<int>>();
+        test.GetType().Should().Be<FluentTestContextAssertionNumeric<int, int>>();
         test.NameParts.Should().BeEquivalentTo("Given(123)", "Should");
+    }
+
+    [Test]
+    public void Test_Given_NullString_Should()
+    {
+        var test = Given((null as string)!).Should();
+            
+        test.GetType().Should().Be<FluentTestContextAssertionString<string>>();
+        test.NameParts.Should().BeEquivalentTo("Given(null)", "Should");
     }
 
     [Test]
@@ -118,8 +119,17 @@ public class FluentTestStepTests
     {
         var test = Given("123").When("Length", x => x.Length).Should().Be(3);
             
-        test.GetType().Should().Be<FluentTestContextAssertionNumeric<string>>();
+        test.GetType().Should().Be<FluentTestContextAssertionNumericAnd<string, int>>();
         test.NameParts.Should().BeEquivalentTo("Given(123)", "When(Length)", "Should", "Be(3)");
+    }
+
+    [Test]
+    public void Test_BeAndBePositive_On_ChangeFromStringToInt_ShouldHaveRightTypeWithInAndOut()
+    {
+        var test = Given("123").When("Length", x => x.Length).Should().Be(3).And().BePositive();
+            
+        test.GetType().Should().Be<FluentTestContextAssertionNumericAnd<string, int>>();
+        test.NameParts.Should().BeEquivalentTo("Given(123)", "When(Length)", "Should", "Be(3)", "And", "BePositive");
     }
 
     private string AppendX(string input) => input + "X";
