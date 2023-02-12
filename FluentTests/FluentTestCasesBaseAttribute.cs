@@ -1,4 +1,5 @@
 using System.Reflection;
+using FluentTests.Context;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;

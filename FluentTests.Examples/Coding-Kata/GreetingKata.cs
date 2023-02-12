@@ -1,3 +1,4 @@
+using FluentTests.Context;
 using static FluentTests.FluentTests;
 
 namespace FluentTests.Examples.Coding_Kata;

@@ -1,4 +1,5 @@
 using FluentAssertions;
+using FluentTests.Context;
 
 namespace FluentTests.Tests;
 
