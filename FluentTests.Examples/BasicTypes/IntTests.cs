@@ -33,7 +33,8 @@ public class IntTests
         
         yield return Given(1).When(IntMathLibraryUnderTest.MultiplyBy2).Should().Be(2);
         
-        //yield return Given(1).When(IntMathLibraryUnderTest.DivideBy0).Should().Throw(new DivideByZeroException());
+        yield return Given(1).When(IntMathLibraryUnderTest.DivideBy0).Should().Throw<DivideByZeroException>();
+        yield return Given(1).When(IntMathLibraryUnderTest.DivideBy0).Should().NotThrow<NullReferenceException>();
     }
 
     public static IEnumerable<int> TestValues => new[] { -1, 2, 1000, 3242 };

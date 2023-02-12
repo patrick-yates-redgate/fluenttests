@@ -1,4 +1,5 @@
 using FluentAssertions.Numeric;
+using FluentAssertions.Specialized;
 
 namespace FluentTests.Context;
 
@@ -51,4 +52,20 @@ public class
         TNumeric maxExpectation) =>
         new(this, AddStep(should => should.NotBeInRange(minExpectation, maxExpectation)), "NotBeInRange",
             $@"[{minExpectation}-{maxExpectation}]");
+
+    public FluentTestContextAssertionNumeric<TIn, TNumeric> Throw<TException>(string because = "")
+        where TException : Exception =>
+        new FluentTestContextAssertionNumeric<TIn, TNumeric>(this, AddStep(should => should), "Throw",
+            typeof(TException).Name).WithActionAssertion(should => { should.Throw<TException>(because); });
+    
+    public FluentTestContextAssertionNumeric<TIn, TNumeric> NotThrow<TException>(string because = "")
+        where TException : Exception =>
+        new FluentTestContextAssertionNumeric<TIn, TNumeric>(this, AddStep(should => should), "NotThrow",
+            typeof(TException).Name).WithActionAssertion(should => { should.NotThrow<TException>(because); });
+
+    public FluentTestContextAssertionNumeric<TIn, TNumeric> WithActionAssertion(Action<ActionAssertions> act)
+    {
+        ActionAssertion = act;
+        return this;
+    }
 }

@@ -1,3 +1,4 @@
+using FluentAssertions.Specialized;
 using FluentTests.Context;
 
 namespace FluentTests;
@@ -10,6 +11,10 @@ public class FluentTestContext<TIn, TOut> : FluentTestContextBase
         InvokeTestSteps = testSteps;
     }
 
+    public IEnumerable<TIn> InputValues { get; set; }
+
+    public Action<ActionAssertions>? ActionAssertion { get; set; } 
+    
     public Func<TIn, TOut>? InvokeTestSteps { get; set; }
 
     public Func<TIn, TOut> AddStep(Func<TOut, TOut> func) => value => func(InvokeTestSteps!(value));
@@ -24,7 +29,19 @@ public class FluentTestContext<TIn, TOut> : FluentTestContextBase
 
     public override void InvokeTest()
     {
-        InvokeTestSteps!(default!);
+        var act = () =>
+        {
+            InvokeTestSteps!(default!);
+        };
+
+        if (ActionAssertion == null)
+        {
+            act();
+        }
+        else
+        {
+            ActionAssertion.Invoke(act.Should());
+        }
     }
 }
 
