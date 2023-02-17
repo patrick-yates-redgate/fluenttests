@@ -28,8 +28,12 @@ public class IntTests
         yield return Given(2).Should().BeGreaterOrEqualTo(1);
         yield return Given(1).Should().BeLessThanOrEqualTo(2);
         yield return Given(2).Should().BeLessThanOrEqualTo(2);
+        yield return Given(1).Should().BeInRange(0, 5);
+        yield return Given(0).Should().NotBeInRange(1, 5);
         yield return Given(1).Should().BePositive();
         yield return Given(-1).Should().BeNegative();
+        yield return Given(2).Should().Match(x=>x == 2);
+        yield return Given(2).Should().Match("Is2", x=>x == 2);
         
         yield return Given(1).When(IntMathLibraryUnderTest.MultiplyBy2).Should().Be(2);
         

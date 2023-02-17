@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+
 namespace FluentTests.Context;
 
 public class FluentTestContextAssertion<TIn, TOut> :

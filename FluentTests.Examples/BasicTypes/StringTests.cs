@@ -18,6 +18,9 @@ public class StringTests
         yield return Given("A").When(DoubleString).Should().Be("AA");
         
         yield return Given("ABC").When(Reverse).Should().Be("CBA");
+        
+        yield return Given((null as string)!).When(Reverse).Should().Throw<NullReferenceException>();
+        yield return Given((null as string)!).When(Reverse).Should().NotThrow<DivideByZeroException>();
 
         //yield return Given("Correct Input").When(BrokenMethod).Should().Be("Correct Output");
     }

@@ -1,5 +1,5 @@
+using System.Linq.Expressions;
 using FluentAssertions.Numeric;
-using FluentAssertions.Specialized;
 
 namespace FluentTests.Context;
 
@@ -52,20 +52,28 @@ public class
         TNumeric maxExpectation) =>
         new(this, AddStep(should => should.NotBeInRange(minExpectation, maxExpectation)), "NotBeInRange",
             $@"[{minExpectation}-{maxExpectation}]");
-
+    
+    public FluentTestContextAssertionNumericAnd<TIn, TNumeric> Match(string stepDescription, Expression<Func<TNumeric, bool>> predicate, string because = "",
+        params object[] becauseArgs) =>
+        new(this, AddStep(should => should.Match(predicate, because, becauseArgs)), "NotBeInRange",
+            stepDescription);
+    
+    public FluentTestContextAssertionNumericAnd<TIn, TNumeric> Match(Expression<Func<TNumeric, bool>> predicate, string because = "",
+        params object[] becauseArgs) =>
+        new(this, AddStep(should => should.Match(predicate, because, becauseArgs)), "NotBeInRange",
+            "expression");
+    
     public FluentTestContextAssertionNumeric<TIn, TNumeric> Throw<TException>(string because = "")
         where TException : Exception =>
-        new FluentTestContextAssertionNumeric<TIn, TNumeric>(this, AddStep(should => should), "Throw",
-            typeof(TException).Name).WithActionAssertion(should => { should.Throw<TException>(because); });
-    
+        (new FluentTestContextAssertionNumeric<TIn, TNumeric>(this, AddStep(should => should), "Throw",
+                    typeof(TException).Name)
+                .WithActionAssertion(should => { should.Throw<TException>(because); }) as
+            FluentTestContextAssertionNumeric<TIn, TNumeric>)!;
+
     public FluentTestContextAssertionNumeric<TIn, TNumeric> NotThrow<TException>(string because = "")
         where TException : Exception =>
-        new FluentTestContextAssertionNumeric<TIn, TNumeric>(this, AddStep(should => should), "NotThrow",
-            typeof(TException).Name).WithActionAssertion(should => { should.NotThrow<TException>(because); });
-
-    public FluentTestContextAssertionNumeric<TIn, TNumeric> WithActionAssertion(Action<ActionAssertions> act)
-    {
-        ActionAssertion = act;
-        return this;
-    }
+        (new FluentTestContextAssertionNumeric<TIn, TNumeric>(this, AddStep(should => should), "NotThrow",
+                    typeof(TException).Name)
+                .WithActionAssertion(should => { should.NotThrow<TException>(because); }) as
+            FluentTestContextAssertionNumeric<TIn, TNumeric>)!;
 }

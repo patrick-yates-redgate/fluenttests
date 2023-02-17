@@ -98,6 +98,15 @@ public class FluentTestStepTests
     }
 
     [Test]
+    public void Test_Given_Should_On_SimpleString()
+    {
+        var test = Given("123").Should();
+            
+        test.GetType().Should().Be<FluentTestContextAssertionString<string>>();
+        test.NameParts.Should().BeEquivalentTo("Given(123)", "Should");
+    }
+
+    [Test]
     public void Test_Given_Should_On_SimpleInt()
     {
         var test = Given(123).Should();
@@ -107,12 +116,48 @@ public class FluentTestStepTests
     }
 
     [Test]
+    public void Test_Given_Should_On_SimpleDecimal()
+    {
+        var test = Given<decimal>(123).Should();
+            
+        test.GetType().Should().Be<FluentTestContextAssertionNumeric<decimal, decimal>>();
+        test.NameParts.Should().BeEquivalentTo("Given(123)", "Should");
+    }
+
+    [Test]
+    public void Test_Given_Should_On_SimpleFloat()
+    {
+        var test = Given(123f).Should();
+            
+        test.GetType().Should().Be<FluentTestContextAssertionNumeric<float, float>>();
+        test.NameParts.Should().BeEquivalentTo("Given(123f)", "Should");
+    }
+
+    [Test]
+    public void Test_Given_Should_On_SimpleDouble()
+    {
+        var test = Given(123d).Should();
+            
+        test.GetType().Should().Be<FluentTestContextAssertionNumeric<double, double>>();
+        test.NameParts.Should().BeEquivalentTo("Given(123d)", "Should");
+    }
+
+    [Test]
     public void Test_Given_NullString_Should()
     {
         var test = Given((null as string)!).Should();
             
         test.GetType().Should().Be<FluentTestContextAssertionString<string>>();
         test.NameParts.Should().BeEquivalentTo("Given(null)", "Should");
+    }
+
+    [Test]
+    public void Test_Given_IEnumerableString_Should()
+    {
+        var test = Given<IEnumerable<string>>(new []{ "A", "B", "C"}).Should();
+            
+        test.GetType().Should().Be<FluentTestContextAssertionObject<IEnumerable<string>, IEnumerable<string>>>();
+        test.NameParts.Should().BeEquivalentTo("Given(A,B,C)", "Should");
     }
 
     [Test]

@@ -27,6 +27,12 @@ public class FluentTestContext<TIn, TOut> : FluentTestContextBase
         return newValue;
     };
 
+    public FluentTestContext<TIn, TOut> WithActionAssertion(Action<ActionAssertions> act)
+    {
+        ActionAssertion = act;
+        return this;
+    }
+
     public override void InvokeTest()
     {
         var act = () =>
