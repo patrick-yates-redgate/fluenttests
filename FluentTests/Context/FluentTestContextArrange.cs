@@ -24,6 +24,12 @@ public class FluentTestContextArrange<TIn, TOut> :
 
     public FluentTestContextAction<TIn, TOut> When(Func<TOut, TOut> stepFunction) =>
         When(stepFunction.Method.Name, stepFunction);
+    
+    public FluentTestContextAction<TIn, TOut> When<TParam1>(Func<TOut, TParam1, TOut> stepFunction, TParam1 paramValue1) =>
+        When(stepFunction.Method.Name, stepFunction, paramValue1);
+    
+    public FluentTestContextAction<TIn, TOut> When<TParam1, TParam2>(Func<TOut, TParam1, TParam2, TOut> stepFunction, TParam1 paramValue1, TParam2 paramValue2) =>
+        When(stepFunction.Method.Name, stepFunction, paramValue1, paramValue2);
 
     public FluentTestContextAction<TIn, TOut> When(string stepContentsDescription,
         Action<TOut> stepFunction) =>
@@ -32,6 +38,12 @@ public class FluentTestContextArrange<TIn, TOut> :
     public FluentTestContextAction<TIn, TNewOut> When<TNewOut>(string stepContentsDescription,
         Func<TOut, TNewOut> stepFunction) =>
         new(this, AddStep(stepFunction), "When", stepContentsDescription);
+    
+    public FluentTestContextAction<TIn, TOut> When<TParam1>(string stepContentsDescription, Func<TOut, TParam1, TOut> stepFunction, TParam1 paramValue1) =>
+        When(stepContentsDescription + "(" + paramValue1 + ")", inValue => stepFunction(inValue, paramValue1));
+    
+    public FluentTestContextAction<TIn, TOut> When<TParam1, TParam2>(string stepContentsDescription, Func<TOut, TParam1, TParam2, TOut> stepFunction, TParam1 paramValue1, TParam2 paramValue2) =>
+        When(stepContentsDescription + "(" + paramValue1 + "," + paramValue2 + ")", inValue => stepFunction(inValue, paramValue1, paramValue2));
 
     public FluentTestContextAction<TIn, TNewOut> Then<TNewOut>(
         Func<TOut, TNewOut> stepFunction) => Then(stepFunction.Method.Name, stepFunction);

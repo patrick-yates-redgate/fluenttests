@@ -11,6 +11,9 @@ public class FluentTestStepTests
     public string AddPrefix(string value) => "Prefix" + value;
 
     public string InitialState() => "InitialState";
+    
+    public int Add(int a, int b) => a + b;
+    public int Add3(int a, int b, int c) => a + b + c;
 
     [Test]
     public void TestThatWhenWeExecuteAGivenTest_WithJustOneMethod_WeExecuteThatMethod()
@@ -176,6 +179,42 @@ public class FluentTestStepTests
             
         test.GetType().Should().Be<FluentTestContextAssertionNumericAnd<string, int>>();
         test.NameParts.Should().BeEquivalentTo("Given(123)", "When(Length)", "Should", "Be(3)", "And", "BePositive");
+    }
+
+    [Test]
+    public void Test_WhenWithArguments()
+    {
+        var test = Given(1).When(Add, 2).Should().Be(3);
+        
+        test.NameParts.Should().BeEquivalentTo("Given(1)", "When(Add(2))", "Should", "Be(3)");
+        test.InvokeTest();
+    }
+
+    [Test]
+    public void Test_WhenWithArguments_AndNamedStep()
+    {
+        var test = Given(1).When("MyAdd", (int a, int b) => a + b, 2).Should().Be(3);
+        
+        test.NameParts.Should().BeEquivalentTo("Given(1)", "When(MyAdd(2))", "Should", "Be(3)");
+        test.InvokeTest();
+    }
+
+    [Test]
+    public void Test_WhenWith2Arguments()
+    {
+        var test = Given(1).When(Add3, 2, 3).Should().Be(6);
+        
+        test.NameParts.Should().BeEquivalentTo("Given(1)", "When(Add3(2,3))", "Should", "Be(6)");
+        test.InvokeTest();
+    }
+
+    [Test]
+    public void Test_WhenWith2Arguments_AndNamedStep()
+    {
+        var test = Given(1).When("MyAdd3", (int a, int b, int c) => a + b + c, 2, 3).Should().Be(6);
+        
+        test.NameParts.Should().BeEquivalentTo("Given(1)", "When(MyAdd3(2,3))", "Should", "Be(6)");
+        test.InvokeTest();
     }
 
     private string AppendX(string input) => input + "X";
