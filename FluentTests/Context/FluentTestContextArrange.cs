@@ -16,11 +16,22 @@ public class FluentTestContextArrange<TIn, TOut> :
         stepContentsDescription)
     {
     }
-    
+
     public static FluentTestContextArrange<TIn, TOut> Given(string stepContentsDescription, Func<TOut> valueFunc) =>
         new(null, _ => valueFunc(), "Given", stepContentsDescription);
-    
-    public static FluentTestContextArrange<TIn, TOut> Given(Func<TOut> valueFunc) => Given(valueFunc.Method.Name, valueFunc);
+
+    public static FluentTestContextArrange<TIn, TOut> Given(Func<TOut> valueFunc) =>
+        Given(valueFunc.Method.Name, valueFunc);
+
+    public static FluentTestContextArrange<TIn, TOut>
+        Given<TParam1>(Func<TParam1, TOut> valueFunc, TParam1 paramValue1) =>
+        Given(valueFunc.Method.Name + "(" + Describe(paramValue1) + ")", () => valueFunc(paramValue1));
+
+    public static FluentTestContextArrange<TIn, TOut> Given<TParam1, TParam2>(Func<TParam1, TParam2, TOut> valueFunc,
+        TParam1 paramValue1,
+        TParam2 paramValue2) =>
+        Given(valueFunc.Method.Name + "(" + Describe(paramValue1) + "," + Describe(paramValue2) + ")",
+            () => valueFunc(paramValue1, paramValue2));
 
     public static FluentTestContextArrange<TIn, TOut> Given(TOut value) => Given(Describe(value), () => value);
 
@@ -31,11 +42,13 @@ public class FluentTestContextArrange<TIn, TOut> :
 
     public FluentTestContextAction<TIn, TOut> When(Func<TOut, TOut> stepFunction) =>
         When(stepFunction.Method.Name, stepFunction);
-    
-    public FluentTestContextAction<TIn, TOut> When<TParam1>(Func<TOut, TParam1, TOut> stepFunction, TParam1 paramValue1) =>
+
+    public FluentTestContextAction<TIn, TOut>
+        When<TParam1>(Func<TOut, TParam1, TOut> stepFunction, TParam1 paramValue1) =>
         When(stepFunction.Method.Name, stepFunction, paramValue1);
-    
-    public FluentTestContextAction<TIn, TOut> When<TParam1, TParam2>(Func<TOut, TParam1, TParam2, TOut> stepFunction, TParam1 paramValue1, TParam2 paramValue2) =>
+
+    public FluentTestContextAction<TIn, TOut> When<TParam1, TParam2>(Func<TOut, TParam1, TParam2, TOut> stepFunction,
+        TParam1 paramValue1, TParam2 paramValue2) =>
         When(stepFunction.Method.Name, stepFunction, paramValue1, paramValue2);
 
     public FluentTestContextAction<TIn, TOut> When(string stepContentsDescription,
@@ -45,12 +58,16 @@ public class FluentTestContextArrange<TIn, TOut> :
     public FluentTestContextAction<TIn, TNewOut> When<TNewOut>(string stepContentsDescription,
         Func<TOut, TNewOut> stepFunction) =>
         new(this, AddStep(stepFunction), "When", stepContentsDescription);
-    
-    public FluentTestContextAction<TIn, TOut> When<TParam1>(string stepContentsDescription, Func<TOut, TParam1, TOut> stepFunction, TParam1 paramValue1) =>
-        When(stepContentsDescription + "(" + Describe(paramValue1) + ")", inValue => stepFunction(inValue, paramValue1));
-    
-    public FluentTestContextAction<TIn, TOut> When<TParam1, TParam2>(string stepContentsDescription, Func<TOut, TParam1, TParam2, TOut> stepFunction, TParam1 paramValue1, TParam2 paramValue2) =>
-        When(stepContentsDescription + "(" + Describe(paramValue1) + "," + Describe(paramValue2) + ")", inValue => stepFunction(inValue, paramValue1, paramValue2));
+
+    public FluentTestContextAction<TIn, TOut> When<TParam1>(string stepContentsDescription,
+        Func<TOut, TParam1, TOut> stepFunction, TParam1 paramValue1) =>
+        When(stepContentsDescription + "(" + Describe(paramValue1) + ")",
+            inValue => stepFunction(inValue, paramValue1));
+
+    public FluentTestContextAction<TIn, TOut> When<TParam1, TParam2>(string stepContentsDescription,
+        Func<TOut, TParam1, TParam2, TOut> stepFunction, TParam1 paramValue1, TParam2 paramValue2) =>
+        When(stepContentsDescription + "(" + Describe(paramValue1) + "," + Describe(paramValue2) + ")",
+            inValue => stepFunction(inValue, paramValue1, paramValue2));
 
     public FluentTestContextAction<TIn, TNewOut> Then<TNewOut>(
         Func<TOut, TNewOut> stepFunction) => Then(stepFunction.Method.Name, stepFunction);

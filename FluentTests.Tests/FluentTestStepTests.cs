@@ -85,6 +85,34 @@ public class FluentTestStepTests
         test.NameParts.Should().BeEquivalentTo("Given(Empty)");
     }
 
+    private string MyValueFunc() => "My value";
+    private string MyValueFuncWithArg(string arg) => "My value " + arg;
+    private string MyValueFuncWith2Args(string arg1, string arg2) => "My value " + arg1 + " + " + arg2;
+    
+    [Test]
+    public void Test_Given_WithSimpleFunction()
+    {
+        var test = Given(MyValueFunc);
+
+        test.NameParts.Should().BeEquivalentTo("Given(MyValueFunc)");
+    }
+    
+    [Test]
+    public void Test_Given_WithOneArgFunction()
+    {
+        var test = Given(MyValueFuncWithArg, "Arg1");
+
+        test.NameParts.Should().BeEquivalentTo("Given(MyValueFuncWithArg(Arg1))");
+    }
+    
+    [Test]
+    public void Test_Given_WithTwoArgFunction()
+    {
+        var test = Given(MyValueFuncWith2Args, "Arg1", "Arg2");
+
+        test.NameParts.Should().BeEquivalentTo("Given(MyValueFuncWith2Args(Arg1,Arg2))");
+    }
+
     [Test]
     public void Test_Given_When_Should_On_EmptyString()
     {
