@@ -13,6 +13,7 @@ public class FluentTestStepTests
     public string InitialState() => "InitialState";
     
     public int Add(int a, int b) => a + b;
+    public float Add(float a, float b) => a + b;
     public int Add3(int a, int b, int c) => a + b + c;
 
     [Test]
@@ -214,6 +215,15 @@ public class FluentTestStepTests
         var test = Given(1).When("MyAdd3", (int a, int b, int c) => a + b + c, 2, 3).Should().Be(6);
         
         test.NameParts.Should().BeEquivalentTo("Given(1)", "When(MyAdd3(2,3))", "Should", "Be(6)");
+        test.InvokeTest();
+    }
+
+    [Test]
+    public void Test_WhenWithFloatArgument()
+    {
+        var test = Given(1f).When(Add, 2f).Should().Be(3);
+        
+        test.NameParts.Should().BeEquivalentTo("Given(1f)", "When(Add(2f))", "Should", "Be(3)");
         test.InvokeTest();
     }
 

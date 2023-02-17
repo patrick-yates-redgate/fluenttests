@@ -1,3 +1,4 @@
+using System.Collections;
 using FluentAssertions.Specialized;
 using FluentTests.Context;
 
@@ -61,4 +62,29 @@ public abstract class FluentTestContext<TContext, TIn, TOut> : FluentTestContext
     }
 
     public abstract TContext GetThis();
+    
+    protected static string Describe<T>(T value)
+    {
+        if (value == null) return "null";
+        return (value switch
+        {
+            string => value.ToString(),
+            IEnumerable enumerable => DescribeEnumerable(enumerable),
+            double => value + "d",
+            float => value + "f",
+            _ => value.ToString()
+        })!;
+    }
+
+    protected static string DescribeEnumerable(IEnumerable values)
+    {
+        var list = new List<string>();
+        
+        foreach (var value in values)
+        {
+            list.Add(Describe(value));
+        }
+
+        return string.Join(",", list);
+    }
 }
